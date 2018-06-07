@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="HibernateClasses">
+
+    <class name="Employee" table="employees">
+        <id name="id" type="int" column="employee_id">
+            <generator class="native"/>
+        </id>
+        <property name="firstName" type="string">
+            <column name="firstName" length="20"/>
+        </property>
+        <property name="lastName" type="string">
+            <column name="lastName" length="20"/>
+        </property>
+        <property name="employeeID" type="string">
+            <column name="employeeID" length="6"/>
+        </property>
+        <property name="login" type="string">
+            <column name="login" length="20"/>
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="20"/>
+        </property>
+        <property name="jobPosition" column="jobPosition" type="int"/>
+
+    </class>
+
+</hibernate-mapping>

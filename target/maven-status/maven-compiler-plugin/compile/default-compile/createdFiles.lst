@@ -1,0 +1,12 @@
+com\sati\web\app\PalleteNumber.class
+com\sati\web\app\ApplicationController.class
+com\sati\web\app\States.class
+HibernateClasses\ProductionRaportPart.class
+com\sati\web\app\Positions.class
+HibernateClasses\Pallete.class
+com\sati\web\app\AppApplication.class
+HibernateClasses\Employee.class
+com\sati\web\app\Credentials.class
+HibernateClasses\ProductType.class
+HibernateConnector\DataBaseConnector.class
+com\sati\web\app\BootstrapDangers.class
