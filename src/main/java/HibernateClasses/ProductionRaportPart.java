@@ -1,7 +1,9 @@
 package HibernateClasses;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductionRaportPart {
 
     private int id;

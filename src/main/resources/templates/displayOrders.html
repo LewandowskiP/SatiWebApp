@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>Zlecenia</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+    var app = angular.module('app', []);
+    var URL = 'http://localhost:8080/';
+    var productionLinesURL = URL + 'productionLines';
+    var productionLineURL = URL + 'productionLine?name=';
+    var finishProductionOrderURL = URL + 'finishProductionOrder?id=';
+    var startProductionOrderURL = URL + 'startProductionOrder?id=';
+    app.controller('productionLines', function($scope, $http) {
+
+
+
+        $http.get(productionLinesURL).
+            then(function(response) {
+                $scope.productionLines = response.data;
+            });
+
+        $scope.selectAction = function(){
+        $http.get(productionLineURL + $scope.prodLines.id).
+            then(function(response) {
+                $scope.orders = response.data;
+            });
+        }
+
+        $scope.startOrder = function(order){
+        $http.get(startProductionOrderURL + order.id);
+        $http.get(productionLineURL + $scope.prodLines.id).
+            then(function(response) {
+                $scope.orders = response.data;
+            });
+        }
+
+        $scope.completeOrder = function(order){
+        $http.get(finishProductionOrderURL + order.id);
+        $http.get( productionLineURL + $scope.prodLines.id).
+            then(function(response) {
+                $scope.orders = response.data;
+            });
+        }
+
+    });
+
+
+    </script>
+
+</head>
+
+<body>
+<div ng-controller="productionLines" class="container">
+    <p></p>
+
+    <select class="form-control" ng-change="selectAction()" ng-model="prodLines"
+            ng-options="line as line.line for line in productionLines"></select>
+    <p></p>
+    <table class="table table-striped">
+        <thead>
+        <th>Nr.</th>
+        <th>Produkt</th>
+        <th>Ilość [KG]</th>
+        <th>Dodatkowe informacje</th>
+        <th></th>
+        <th></th>
+        </thead>
+        <tbody>
+        <tr ng-repeat="order in orders">
+            <td>{{ order.positionInQueue + 1 }}</td>
+            <td>{{ order.productType.productName }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.otherInfo }}</td>
+            <td>
+                <button ng-if="order.state === 1" type="button" class="btn btn-info" ng-click="startOrder(order)">
+                    Rozpocznij
+                </button>
+                <button ng-if="order.state === 2" type="button" class="btn btn-success" ng-click="completeOrder(order)">
+                    Zakończ
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

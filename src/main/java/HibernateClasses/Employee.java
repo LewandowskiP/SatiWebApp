@@ -1,15 +1,25 @@
 package HibernateClasses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.sql.Timestamp;
 
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Employee {
 
-
     private int id;
+    @JsonIgnore
     private String firstName;
+    @JsonIgnore
     private String lastName;
+    @JsonIgnore
     private String login;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     private int jobPosition;
     private String employeeID;
 

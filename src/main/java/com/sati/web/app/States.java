@@ -20,6 +20,10 @@ public class States {
     public static final int PALLETE_CHECKED = 2;
     public static final int PALLETE_STORED = 3;
 
+    public static final int PRODUCTION_ORDER_ORDERED = 1;
+    public static final int PRODUCTION_ORDER_INPROGRESS = 2;
+    public static final int PRODUCTION_ORDER_COMPLETED = 3;
+
     public static String timestampToStrDDMMYYYY(Timestamp ts) {
         String date = String.valueOf(ts.getDate());
         date += "-" + String.valueOf(ts.getMonth() + 1);

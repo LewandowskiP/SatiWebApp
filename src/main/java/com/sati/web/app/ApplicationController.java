@@ -30,6 +30,7 @@ public class ApplicationController {
     }
 
 
+    //LOGIN FORM
     @GetMapping("/login")
     public String loginForm(Model model, HttpServletRequest request) {
         model.addAttribute("credentials", new Credentials());
@@ -52,6 +53,7 @@ public class ApplicationController {
             } else return "noAuthorization";
         } else return "loginFault";
     }
+    //LOGIN FORM END
 
     @GetMapping("/storeman")
     public String storemanEmpty(Model model, HttpServletRequest request) {
@@ -113,7 +115,6 @@ public class ApplicationController {
         return "redirect:login";
     }
 
-
     @GetMapping("/hallManager")
     public String hallManagerEmpty(Model model, HttpServletRequest request) {
         model.addAttribute("palleteNumber", new PalleteNumber());
@@ -173,8 +174,17 @@ public class ApplicationController {
             }
         } else clearUserFromSession(request);
         return "redirect:login";
+    }
 
 
+    @RequestMapping("/productionOrders")
+    public String productionOrders(Model model) {
+        return "productionOrder";
+    }
+
+    @GetMapping("/displayOrders")
+    public String displayOrders(Model model, HttpServletRequest request) {
+        return "displayOrders";
     }
 
 

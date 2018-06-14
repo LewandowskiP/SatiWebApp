@@ -1,9 +1,12 @@
 package HibernateClasses;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 
 
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pallete {
 
 

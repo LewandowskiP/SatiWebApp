@@ -1,5 +1,8 @@
 package HibernateClasses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductType {
 
     private int id;
