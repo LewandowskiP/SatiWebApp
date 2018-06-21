@@ -4,7 +4,10 @@ package HibernateClasses;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Entity
 public class ProductionLine implements Comparable {
 
     private int id;
@@ -20,6 +23,7 @@ public class ProductionLine implements Comparable {
     public ProductionLine() {
     }
 
+    @Column( name = "roast")
     public boolean isRoast() {
         return roast;
     }
@@ -28,6 +32,9 @@ public class ProductionLine implements Comparable {
         this.roast = roast;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name ="productionLine_id")
     public int getId() {
         return id;
     }
@@ -36,6 +43,7 @@ public class ProductionLine implements Comparable {
         this.id = id;
     }
 
+    @Column(name = "line",length = 30)
     public String getLine() {
         return line;
     }

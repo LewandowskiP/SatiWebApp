@@ -10,18 +10,24 @@
 
     var app = angular.module('app', []);
     var URL = 'http://localhost:8080/';
+    var block = 1;
     var productionLinesURL = URL + 'productionLines';
     var productionLineURL = URL + 'productionLine?name=';
     var finishProductionOrderURL = URL + 'finishProductionOrder?id=';
     var startProductionOrderURL = URL + 'startProductionOrder?id=';
-    app.controller('productionLines', function($scope, $http) {
-
-
+    app.controller('productionLines', function($scope,$interval, $http) {
 
         $http.get(productionLinesURL).
             then(function(response) {
                 $scope.productionLines = response.data;
             });
+
+        $interval(function() {
+            $http.get(productionLineURL + $scope.prodLines.id).
+            then(function(response) {
+                $scope.orders = response.data;
+            });
+         }, 10000);
 
         $scope.selectAction = function(){
         $http.get(productionLineURL + $scope.prodLines.id).
@@ -31,19 +37,31 @@
         }
 
         $scope.startOrder = function(order){
-        $http.get(startProductionOrderURL + order.id);
-        $http.get(productionLineURL + $scope.prodLines.id).
-            then(function(response) {
-                $scope.orders = response.data;
-            });
+            if (block == 1) {
+                block = 0;
+                $http.get(startProductionOrderURL + order.id);
+                $http.get(productionLineURL + $scope.prodLines.id).
+                    then(function(response) {
+                        $scope.orders = response.data;
+                    });
+                block = 1;
+            } else {
+                alert("Proszę czekać");
+            }
         }
 
         $scope.completeOrder = function(order){
-        $http.get(finishProductionOrderURL + order.id);
-        $http.get( productionLineURL + $scope.prodLines.id).
-            then(function(response) {
-                $scope.orders = response.data;
-            });
+            if (block == 1) {
+                block = 0;
+                $http.get(finishProductionOrderURL + order.id);
+                $http.get( productionLineURL + $scope.prodLines.id).
+                    then(function(response) {
+                        $scope.orders = response.data;
+                    });
+                block = 1;
+            } else {
+                alert("Proszę czekać");
+            }
         }
 
     });

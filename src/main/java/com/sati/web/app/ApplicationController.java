@@ -39,9 +39,7 @@ public class ApplicationController {
 
     @PostMapping("/login")
     public String loginSubmit(@ModelAttribute Credentials credentials, Model model, HttpServletRequest request) {
-        DataBaseConnector.openSession();
         Employee employee = DataBaseConnector.authorizeUser(credentials.getLogin(), credentials.getPassword());
-        DataBaseConnector.closeSession();
         if (employee != null) {
             int position = employee.getJobPosition();
             if (position == Positions.STOREMAN) {
@@ -67,7 +65,6 @@ public class ApplicationController {
     public String storemanWithPallete(@ModelAttribute PalleteNumber palleteNumber, Model model, HttpServletRequest request) {
         if (loginCheck(request)) {
             try {
-                DataBaseConnector.openSession();
                 Pallete pallete = DataBaseConnector.getPallete(palleteNumber.getIdIntger());
                 if (pallete != null) {
                     request.getSession().setAttribute("pallete", pallete);
@@ -84,13 +81,11 @@ public class ApplicationController {
                     model.addAttribute("netto", pallete.getNetto());
                     model.addAttribute("lot", pallete.getBatch());
                     model.addAttribute("expiry", States.timestampToStrDDMMYYYY(pallete.getExpiryDate()));
-                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmp());
+                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee());
                     return "storeman";
                 } else return "redirect:storeman";
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                DataBaseConnector.closeSession();
             }
         } else clearUserFromSession(request);
         return "redirect:login";
@@ -100,7 +95,6 @@ public class ApplicationController {
     public String acceptPalleteStoraman(Model model, HttpServletRequest request) {
         if (loginCheck(request)) {
             try {
-                DataBaseConnector.openSession();
                 Pallete pallete = (Pallete) request.getSession().getAttribute("pallete");
                 pallete.setState(States.PALLETE_STORED);
                 DataBaseConnector.updateObject(pallete);
@@ -108,8 +102,6 @@ public class ApplicationController {
                 return "redirect:storeman";
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                DataBaseConnector.closeSession();
             }
         } else clearUserFromSession(request);
         return "redirect:login";
@@ -127,7 +119,6 @@ public class ApplicationController {
     public String hallManagerWithPallete(@ModelAttribute PalleteNumber palleteNumber, Model model, HttpServletRequest request) {
         if (loginCheck(request)) {
             try {
-                DataBaseConnector.openSession();
                 Pallete pallete = DataBaseConnector.getPallete(palleteNumber.getIdIntger());
                 if (pallete != null) {
                     request.getSession().setAttribute("pallete", pallete);
@@ -144,13 +135,11 @@ public class ApplicationController {
                     model.addAttribute("netto", pallete.getNetto());
                     model.addAttribute("lot", pallete.getBatch());
                     model.addAttribute("expiry", States.timestampToStrDDMMYYYY(pallete.getExpiryDate()));
-                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmp());
+                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee());
                     return "hallManager";
                 } else return "redirect:hallManager";
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                DataBaseConnector.closeSession();
             }
         } else clearUserFromSession(request);
         return "redirect:login";
@@ -160,7 +149,6 @@ public class ApplicationController {
     public String acceptPalleteHallManager(Model model, HttpServletRequest request) {
         if (loginCheck(request)) {
             try {
-                DataBaseConnector.openSession();
                 Pallete pallete = (Pallete) request.getSession().getAttribute("pallete");
                 pallete.setState(States.PALLETE_CHECKED);
                 DataBaseConnector.updateObject(pallete);
@@ -168,9 +156,6 @@ public class ApplicationController {
                 return "redirect:hallManager";
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                DataBaseConnector.closeSession();
-
             }
         } else clearUserFromSession(request);
         return "redirect:login";

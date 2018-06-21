@@ -3,15 +3,19 @@ package HibernateClasses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Entity
 public class ProductionRaportPart {
 
+
     private int id;
-    private Employee emp;
+    private Employee employee;
     private ProductType productType;
     private int labTestState;
 
-
+    @Column(name = "labTestState")
     public int getLabTestState() {
         return labTestState;
     }
@@ -20,6 +24,9 @@ public class ProductionRaportPart {
         this.labTestState = labTestState;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name = "productionRaportPart_id")
     public int getId() {
         return id;
     }
@@ -28,14 +35,18 @@ public class ProductionRaportPart {
         this.id = id;
     }
 
-    public Employee getEmp() {
-        return emp;
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setEmp(Employee emp) {
-        this.emp = emp;
+    public void setEmployee(Employee Employee) {
+        this.employee = employee;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "productType_id", nullable = false)
     public ProductType getProductType() {
         return productType;
     }

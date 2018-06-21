@@ -4,18 +4,26 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
-
+@Entity
+@Table(name = "employees")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Employee {
 
     private int id;
+
     @JsonIgnore
     private String firstName;
+
+
     @JsonIgnore
     private String lastName;
+
+
     @JsonIgnore
+    @Column(name = "lastName", length = 20)
     private String login;
     @JsonIgnore
     private String password;
@@ -23,6 +31,7 @@ public class Employee {
     private int jobPosition;
     private String employeeID;
 
+    @Column(name = "employeeID", length = 6)
     public String getEmployeeID() {
         return employeeID;
     }
@@ -31,6 +40,9 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
+    @Id
+    @GeneratedValue
+    @Column(name = "employee_id")
     public int getId() {
         return id;
     }
@@ -39,6 +51,8 @@ public class Employee {
         this.id = id;
     }
 
+
+    @Column(name = "firstName", length = 20)
     public String getFirstName() {
         return firstName;
     }
@@ -47,6 +61,8 @@ public class Employee {
         this.firstName = firstName;
     }
 
+
+    @Column(name = "lastName", length = 20)
     public String getLastName() {
         return lastName;
     }
@@ -55,6 +71,8 @@ public class Employee {
         this.lastName = lastName;
     }
 
+
+    @Column(name = "login", length = 20)
     public String getLogin() {
         return login;
     }
@@ -63,6 +81,7 @@ public class Employee {
         this.login = login;
     }
 
+    @Column(name = "password", length = 20)
     public String getPassword() {
         return password;
     }
@@ -71,6 +90,8 @@ public class Employee {
         this.password = password;
     }
 
+
+    @Column(name = "jobPosition")
     public int getJobPosition() {
         return jobPosition;
     }

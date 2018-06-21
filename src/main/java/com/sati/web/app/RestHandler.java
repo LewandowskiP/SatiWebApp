@@ -31,14 +31,14 @@ public class RestHandler {
     }
 
     @GetMapping("/startProductionOrder")
-    public String startProductionOrder(@RequestParam(value = "id") Integer id) {
+    public synchronized String startProductionOrder(@RequestParam(value = "id") Integer id) {
         String toReturn = "Wystąpił błąd.";
         if (DataBaseConnector.startProductionOrder(id)) toReturn = "Zaakceptowano zlecenie.";
         return toReturn;
     }
 
     @GetMapping("/finishProductionOrder")
-    public String finishProductionOrder(@RequestParam(value = "id") Integer id) {
+    public synchronized String finishProductionOrder(@RequestParam(value = "id") Integer id) {
         String toReturn = "Wystąpił błąd.";
         if (DataBaseConnector.finishProductionOrder(id)) toReturn = "Zlecenie zakończone";
         return toReturn;

@@ -3,12 +3,13 @@ package HibernateClasses;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Entity
 public class Pallete {
-
 
 
     private int id;
@@ -24,7 +25,9 @@ public class Pallete {
     private String ean128Pallete;
     private String ean128Num;
 
-
+    @Id
+    @GeneratedValue
+    @Column(name = "pallete_id")
     public int getId() {
         return id;
     }
@@ -33,6 +36,7 @@ public class Pallete {
         this.id = id;
     }
 
+    @Column(name = "expiryDate")
     public Timestamp getExpiryDate() {
         return expiryDate;
     }
@@ -41,6 +45,8 @@ public class Pallete {
         this.expiryDate = expiryDate;
     }
 
+
+    @Column(name = "prodDate")
     public Timestamp getProdDate() {
         return prodDate;
     }
@@ -49,6 +55,8 @@ public class Pallete {
         this.prodDate = prodDate;
     }
 
+
+    @Column(name = "netto")
     public Float getNetto() {
         return netto;
     }
@@ -57,6 +65,8 @@ public class Pallete {
         this.netto = netto;
     }
 
+
+    @Column(name = "quantity")
     public int getQuantity() {
         return quantity;
     }
@@ -65,6 +75,8 @@ public class Pallete {
         this.quantity = quantity;
     }
 
+
+    @Column(name = "batch")
     public String getBatch() {
         return batch;
     }
@@ -73,6 +85,8 @@ public class Pallete {
         this.batch = batch;
     }
 
+
+    @Column(name = "state")
     public int getState() {
         return state;
     }
@@ -81,6 +95,8 @@ public class Pallete {
         this.state = state;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "productionRaportPart_id", nullable = false)
     public ProductionRaportPart getProductionRaportPart() {
         return productionRaportPart;
     }
@@ -89,6 +105,8 @@ public class Pallete {
         this.productionRaportPart = productionRaportPart;
     }
 
+
+    @Column(name = "ean128Lot")
     public String getEan128Lot() {
         return ean128Lot;
     }
@@ -97,6 +115,7 @@ public class Pallete {
         this.ean128Lot = ean128Lot;
     }
 
+    @Column(name = "ean128Pallete")
     public String getEan128Pallete() {
         return ean128Pallete;
     }
@@ -105,6 +124,7 @@ public class Pallete {
         this.ean128Pallete = ean128Pallete;
     }
 
+    @Column(name = "ean128Num")
     public String getEan128Num() {
         return ean128Num;
     }

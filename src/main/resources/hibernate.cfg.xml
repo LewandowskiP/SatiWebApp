@@ -7,7 +7,6 @@
         <property name="hibernate.dialect">
             org.hibernate.dialect.MySQLDialect
         </property>
-
         <property name="hibernate.connection.driver_class">
             com.mysql.jdbc.Driver
         </property>
@@ -23,13 +22,12 @@
             root
         </property>
 
-        <mapping class="HibernateClasses.Employee" resource="hibernateMappingEmployee.hbm.xml"/>
-        <mapping class="HibernateClasses.ProductType" resource="hibernateMappingProductType.hbm.xml"/>
-        <mapping class="HibernateClasses.ProductionRaportPart" resource="hibernateMappingProductionRaportPart.hbm.xml"/>
-        <mapping class="HibernateClasses.Pallete" resource="hibernateMappingPallete.hbm.xml"/>
-        <mapping class="HibernateClasses.ProductionLine" resource="hibernateMappingProductionLine.hbm.xml"/>
-        <mapping class="HibernateClasses.ProductionOrder" resource="hibernateMappingProductionOrder.hbm.xml"/>
-
+        <mapping class="HibernateClasses.Employee" />
+        <mapping class="HibernateClasses.ProductType"/>
+        <mapping class="HibernateClasses.ProductionRaportPart" />
+        <mapping class="HibernateClasses.Pallete" />
+        <mapping class="HibernateClasses.ProductionLine" />
+        <mapping class="HibernateClasses.ProductionOrder" />
 
     </session-factory>
 </hibernate-configuration>

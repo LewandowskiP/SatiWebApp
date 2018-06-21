@@ -12,12 +12,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sati.web.app.States;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 /**
  * @author Przemysław
  */
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Entity
 public class ProductionOrder implements Comparable {
 
     private int id;
@@ -72,6 +75,8 @@ public class ProductionOrder implements Comparable {
         this.state = States.PRODUCTION_ORDER_COMPLETED;
     }
 
+    @Id
+    @Column(name = "productionOrder_id")
     public int getId() {
         return id;
     }
@@ -80,14 +85,17 @@ public class ProductionOrder implements Comparable {
         this.id = id;
     }
 
+    @Column(name = "state")
     public int getState() {
         return state;
     }
+
 
     public void setState(int state) {
         this.state = state;
     }
 
+    @Column(name = "positionInQueue")
     public int getPositionInQueue() {
         return positionInQueue;
     }
@@ -96,6 +104,7 @@ public class ProductionOrder implements Comparable {
         this.positionInQueue = positionInQueue;
     }
 
+    @Column(name = "quantity")
     public Integer getQuantity() {
         return quantity;
     }
@@ -104,6 +113,7 @@ public class ProductionOrder implements Comparable {
         this.quantity = quantity;
     }
 
+    @Column(name = "otherInfo", length = 50)
     public String getOtherInfo() {
         return otherInfo;
     }
@@ -112,6 +122,8 @@ public class ProductionOrder implements Comparable {
         this.otherInfo = otherInfo;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "productType", nullable = false)
     public ProductType getProductType() {
         return productType;
     }
@@ -120,6 +132,8 @@ public class ProductionOrder implements Comparable {
         this.productType = productType;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "productionLine", nullable = false)
     public ProductionLine getProductionLine() {
         return productionLine;
     }
@@ -128,6 +142,8 @@ public class ProductionOrder implements Comparable {
         this.productionLine = productionLine;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "orderedBy", nullable = false)
     public Employee getOrderedBy() {
         return orderedBy;
     }
@@ -136,6 +152,8 @@ public class ProductionOrder implements Comparable {
         this.orderedBy = orderedBy;
     }
 
+    @ManyToOne
+    @JoinColumn(name = "completedBy", nullable = true)
     public Employee getCompletedBy() {
         return completedBy;
     }
@@ -144,6 +162,7 @@ public class ProductionOrder implements Comparable {
         this.completedBy = completedBy;
     }
 
+    @Column(name = "orderTime")
     public Timestamp getOrderTime() {
         return orderTime;
     }
@@ -152,6 +171,7 @@ public class ProductionOrder implements Comparable {
         this.orderTime = orderTime;
     }
 
+    @Column(name = "completeTime")
     public Timestamp getCompleteTime() {
         return completeTime;
     }
