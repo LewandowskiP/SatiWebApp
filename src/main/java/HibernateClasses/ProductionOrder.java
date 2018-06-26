@@ -38,9 +38,12 @@ public class ProductionOrder implements Comparable {
     @JsonIgnore
     private Employee completedBy;
 
+    private Timestamp deadline;
     private Timestamp orderTime;
     @JsonIgnore
     private Timestamp completeTime;
+
+    private boolean important;
 
     private int state;
 
@@ -59,6 +62,25 @@ public class ProductionOrder implements Comparable {
         this.state = States.PRODUCTION_ORDER_ORDERED;
         this.positionInQueue = positionInQueue;
         this.orderTime = new Timestamp(System.currentTimeMillis());
+    }
+
+
+    @Column(name = "important")
+    public boolean isImportant() {
+        return important;
+    }
+
+    public void setImportant(boolean important) {
+        this.important = important;
+    }
+
+    @Column(name = "deadline")
+    public Timestamp getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
     }
 
     public void upQueue() {

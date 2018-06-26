@@ -168,7 +168,8 @@ public class ApplicationController {
     }
 
     @GetMapping("/displayOrders")
-    public String displayOrders(Model model, HttpServletRequest request) {
+    public String displayOrders(@RequestParam(value = "line", defaultValue = "0") Integer id, Model model, HttpServletRequest request) {
+        model.addAttribute("currentProductionLine", DataBaseConnector.getProductionLine(id).getId());
         return "displayOrders";
     }
 

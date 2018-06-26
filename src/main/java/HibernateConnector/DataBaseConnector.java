@@ -92,6 +92,7 @@ public class DataBaseConnector {
         q.setParameter("state2", States.PRODUCTION_ORDER_INPROGRESS);
         toReturn.addAll(q.list());
         for (ProductionOrder productionOrder : toReturn) {
+            s.refresh(productionOrder);
             Hibernate.initialize(productionOrder);
             Hibernate.initialize(productionOrder.getOrderedBy());
             Hibernate.initialize(productionOrder.getCompletedBy());
@@ -122,7 +123,6 @@ public class DataBaseConnector {
 
     public synchronized static boolean startProductionOrder(Integer id) {
         boolean toReturn = false;
-        openSession();
         String hql = "FROM ProductionOrder PO WHERE PO.id = :id";
         Query q = s.createQuery(hql);
         q.setParameter("id", id);

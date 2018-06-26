@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="app">
+<html ng-app="app" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Zlecenia</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
@@ -67,14 +67,16 @@
     });
 
 
+
+
+
     </script>
 
 </head>
 
 <body>
-<div ng-controller="productionLines" class="container">
+<div ng-controller="productionLines" class="container-fluid h3" wi>
     <p></p>
-
     <select class="form-control" ng-change="selectAction()" ng-model="prodLines"
             ng-options="line as line.line for line in productionLines"></select>
     <p></p>
@@ -83,17 +85,19 @@
         <th>Nr.</th>
         <th>Produkt</th>
         <th>Ilość [KG]</th>
+        <th>Deadline</th>
         <th>Dodatkowe informacje</th>
-        <th></th>
-        <th></th>
+        <th ng-if="order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}"></th>
+
         </thead>
         <tbody>
-        <tr ng-repeat="order in orders">
+        <tr ng-class=" order.important? 'danger' : 'default'" ng-repeat="order in orders">
             <td>{{ order.positionInQueue + 1 }}</td>
             <td>{{ order.productType.productName }}</td>
             <td>{{ order.quantity }}</td>
+            <td>{{ order.deadline | date :'dd.MM.yyyy h:mm' }}</td>
             <td>{{ order.otherInfo }}</td>
-            <td>
+            <td ng-if="order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}">
                 <button ng-if="order.state === 1" type="button" class="btn btn-info" ng-click="startOrder(order)">
                     Rozpocznij
                 </button>
