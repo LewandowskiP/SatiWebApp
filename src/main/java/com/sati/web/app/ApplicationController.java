@@ -81,7 +81,7 @@ public class ApplicationController {
                     model.addAttribute("netto", pallete.getNetto());
                     model.addAttribute("lot", pallete.getBatch());
                     model.addAttribute("expiry", States.timestampToStrDDMMYYYY(pallete.getExpiryDate()));
-                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee());
+                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee().getEmployeeID());
                     return "storeman";
                 } else return "redirect:storeman";
             } catch (Exception e) {
@@ -125,17 +125,17 @@ public class ApplicationController {
                     int state = pallete.getProductionRaportPart().getLabTestState();
                     model.addAttribute("color",
                             state == States.PRODUCTION_RAPORT_PART_ACCEPTED
-                                    ? "background-color:lawngreen" : state >= States.PALLETE_CHECKED
+                                    ? "background-color:lawngreen" : state >= States.PRODUCTION_RAPORT_PART_TO_STORE
                                     ? "background-color:khaki" : "background-color:coral");
                     model.addAttribute("allowAccept",
-                            state == States.PRODUCTION_RAPORT_PART_ACCEPTED);
+                            ((state == States.PRODUCTION_RAPORT_PART_ACCEPTED) && (pallete.getState() == States.PALLETE_WAITING)));
                     model.addAttribute("showDetails", true);
                     model.addAttribute("prodName", pallete.getProductionRaportPart().getProductType().getProductName());
                     model.addAttribute("quantity", pallete.getQuantity());
                     model.addAttribute("netto", pallete.getNetto());
                     model.addAttribute("lot", pallete.getBatch());
                     model.addAttribute("expiry", States.timestampToStrDDMMYYYY(pallete.getExpiryDate()));
-                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee());
+                    model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee().getEmployeeID());
                     return "hallManager";
                 } else return "redirect:hallManager";
             } catch (Exception e) {

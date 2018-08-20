@@ -39,7 +39,6 @@ public class DataBaseConnector {
             }
         }
         s = sf.openSession();
-        s.setFlushMode(FlushModeType.COMMIT);
     }
 
 
@@ -56,6 +55,8 @@ public class DataBaseConnector {
         List result = q.list();
         if (result.size() > 0) {
             pallete = (Pallete) result.get(0);
+            s.refresh(pallete);
+            s.refresh(pallete.getProductionRaportPart());
             Hibernate.initialize(pallete.getProductionRaportPart());
             Hibernate.initialize(pallete.getProductionRaportPart().getEmployee());
             Hibernate.initialize(pallete.getProductionRaportPart().getProductType());
@@ -78,6 +79,7 @@ public class DataBaseConnector {
         List result = q.list();
         if (result.size() > 0) {
             e = (Employee) result.get(0);
+            Hibernate.initialize(e);
         }
         return e;
 

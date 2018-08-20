@@ -11,8 +11,7 @@ import java.sql.Timestamp;
  */
 public class States {
 
-    public static final int PRODUCTION_RAPORT_PART_WAITING = 1;
-    public static final int PRODUCTION_RAPORT_PART_BLOCKED = 2;
+
     public static final int PRODUCTION_RAPORT_PART_ACCEPTED = 3;
     public static final int PRODUCTION_RAPORT_PART_TO_STORE = 4;
 
