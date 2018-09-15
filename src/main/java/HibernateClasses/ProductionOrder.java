@@ -23,6 +23,13 @@ import java.sql.Timestamp;
 @Entity
 public class ProductionOrder implements Comparable {
 
+
+    public static final int PRODUCTION_ORDER_ORDERED = 1;
+    public static final int PRODUCTION_ORDER_INPROGRESS = 2;
+    public static final int PRODUCTION_ORDER_PAUSED = 3;
+    public static final int PRODUCTION_ORDER_COMPLETED = 4;
+
+
     private int id;
 
     private int positionInQueue;
@@ -59,7 +66,7 @@ public class ProductionOrder implements Comparable {
         this.orderedBy = orderedBy;
         this.quantity = quantity;
         this.otherInfo = otherInfo;
-        this.state = States.PRODUCTION_ORDER_ORDERED;
+        this.state = PRODUCTION_ORDER_ORDERED;
         this.positionInQueue = positionInQueue;
         this.orderTime = new Timestamp(System.currentTimeMillis());
     }
@@ -94,7 +101,7 @@ public class ProductionOrder implements Comparable {
     public void completeOrder(Employee completedBy) {
         this.completedBy = completedBy;
         this.completeTime = new Timestamp(System.currentTimeMillis());
-        this.state = States.PRODUCTION_ORDER_COMPLETED;
+        this.state = PRODUCTION_ORDER_COMPLETED;
     }
 
     @Id

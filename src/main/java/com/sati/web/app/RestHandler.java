@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class RestHandler {
 
     @GetMapping("/productionLine")
-    public String productionLine(@RequestParam(value = "name") Integer name) {
+    public synchronized String productionLine(@RequestParam(value = "name") Integer name) {
         String serialized = null;
         try {
             serialized = new ObjectMapper().writeValueAsString(new ProductionOrders(name).getProductionOrderArrayList());
@@ -20,7 +20,7 @@ public class RestHandler {
     }
 
     @GetMapping("/productionLines")
-    public String productionLine() {
+    public synchronized String productionLine() {
         String serialized = null;
         try {
             serialized = new ObjectMapper().writeValueAsString(new ProductionLines().getProductionLineArrayList());
@@ -41,6 +41,21 @@ public class RestHandler {
     public synchronized String finishProductionOrder(@RequestParam(value = "id") Integer id) {
         String toReturn = "Wystąpił błąd.";
         if (DataBaseConnector.finishProductionOrder(id)) toReturn = "Zlecenie zakończone";
+        return toReturn;
+    }
+
+
+    @GetMapping("/pauseProductionOrder")
+    public synchronized String pauseProductionOrder(@RequestParam(value = "id") Integer id) {
+        String toReturn = "Wystąpił błąd.";
+        if (DataBaseConnector.pauseProductionOrder(id)) toReturn = "Zlecenie zakończone";
+        return toReturn;
+    }
+
+    @GetMapping("/unpauseProductionOrder")
+    public synchronized String unpauseProductionOrder(@RequestParam(value = "id") Integer id) {
+        String toReturn = "Wystąpił błąd.";
+        if (DataBaseConnector.unpauseProductionOrder(id)) toReturn = "Zlecenie zakończone";
         return toReturn;
     }
 }

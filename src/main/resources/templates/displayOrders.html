@@ -9,12 +9,13 @@
     <script>
 
     var app = angular.module('app', []);
-    var URL = 'http://192.168.17.20:8080/';
-    var block = 1;
+    var URL = 'http://localhost:8080/';
     var productionLinesURL = URL + 'productionLines';
     var productionLineURL = URL + 'productionLine?name=';
     var finishProductionOrderURL = URL + 'finishProductionOrder?id=';
     var startProductionOrderURL = URL + 'startProductionOrder?id=';
+    var pauseProductionOrderURL = URL + 'pauseProductionOrder?id=';
+    var unpauseProductionOrderURL = URL + 'unpauseProductionOrder?id=';
     app.controller('productionLines', function($scope,$interval, $http) {
 
         $http.get(productionLinesURL).
@@ -27,7 +28,7 @@
             then(function(response) {
                 $scope.orders = response.data;
             });
-         }, 10000);
+         }, 500);
 
         $scope.selectAction = function(){
         $http.get(productionLineURL + $scope.prodLines.id).
@@ -37,41 +38,22 @@
         }
 
         $scope.startOrder = function(order){
-            if (block == 1) {
-                block = 0;
                 $http.get(startProductionOrderURL + order.id);
-                $http.get(productionLineURL + $scope.prodLines.id).
-                    then(function(response) {
-                        $scope.orders = response.data;
-                    });
-                block = 1;
-            } else {
-                alert("Proszę czekać");
-            }
+        }
+
+        $scope.pauseOrder = function(order){
+                $http.get(pauseProductionOrderURL + order.id);
+        }
+
+        $scope.unpauseOrder = function(order){
+                $http.get(unpauseProductionOrderURL + order.id);
         }
 
         $scope.completeOrder = function(order){
-            if (block == 1) {
-                block = 0;
                 $http.get(finishProductionOrderURL + order.id);
-                $http.get( productionLineURL + $scope.prodLines.id).
-                    then(function(response) {
-                        $scope.orders = response.data;
-                    });
-                block = 1;
-            } else {
-                alert("Proszę czekać");
-            }
         }
-
     });
-
-
-
-
-
     </script>
-
 </head>
 
 <body>
@@ -100,6 +82,12 @@
             <td ng-if="order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}">
                 <button ng-if="order.state === 1" type="button" class="btn btn-info" ng-click="startOrder(order)">
                     Rozpocznij
+                </button>
+                <button ng-if="order.state === 2" type="button" class="btn btn-info" ng-click="pauseOrder(order)">
+                    Wstrzymaj
+                </button>
+                <button ng-if="order.state === 3" type="button" class="btn btn-info" ng-click="unpauseOrder(order)">
+                    Kontynuuj
                 </button>
                 <button ng-if="order.state === 2" type="button" class="btn btn-success" ng-click="completeOrder(order)">
                     Zakończ

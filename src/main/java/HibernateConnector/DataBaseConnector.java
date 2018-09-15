@@ -47,7 +47,7 @@ public class DataBaseConnector {
     }
 
 
-    public static Pallete getPallete(Integer palleteNumber) {
+    public synchronized static Pallete getPallete(Integer palleteNumber) {
         Pallete pallete = null;
         String hql = "FROM Pallete P WHERE P.ean128Num = :palleteNumber";
         Query q = s.createQuery(hql);
@@ -70,7 +70,7 @@ public class DataBaseConnector {
         t.commit();
     }
 
-    public static Employee authorizeUser(String login, String password) {
+    public synchronized static Employee authorizeUser(String login, String password) {
         Employee e = null;
         String hql = "FROM Employee E WHERE ( E.login = :empLogin AND E.password = :empPassword )";
         Query q = s.createQuery(hql);
@@ -85,13 +85,12 @@ public class DataBaseConnector {
 
     }
 
-    public static ArrayList<ProductionOrder> getProductionOrders(ProductionLine productionLine) {
+    public synchronized static ArrayList<ProductionOrder> getProductionOrders(ProductionLine productionLine) {
         ArrayList<ProductionOrder> toReturn = new ArrayList<>();
-        String hql = "FROM ProductionOrder PO WHERE PO.productionLine = :productionLine AND ( PO.state = :state1 OR PO.state = :state2)";
+        String hql = "FROM ProductionOrder PO WHERE PO.productionLine = :productionLine AND ( PO.state <= :state1 )";
         Query q = s.createQuery(hql);
         q.setParameter("productionLine", productionLine);
-        q.setParameter("state1", States.PRODUCTION_ORDER_ORDERED);
-        q.setParameter("state2", States.PRODUCTION_ORDER_INPROGRESS);
+        q.setParameter("state1", ProductionOrder.PRODUCTION_ORDER_PAUSED);
         toReturn.addAll(q.list());
         for (ProductionOrder productionOrder : toReturn) {
             s.refresh(productionOrder);
@@ -104,7 +103,7 @@ public class DataBaseConnector {
         return toReturn;
     }
 
-    public static ProductionLine getProductionLine(Integer productionLineName) {
+    public synchronized static ProductionLine getProductionLine(Integer productionLineName) {
         ProductionLine toReturn = null;
         String hql = "FROM ProductionLine PL WHERE PL.id = :productionLineName ";
         Query q = s.createQuery(hql, ProductionLine.class);
@@ -115,7 +114,7 @@ public class DataBaseConnector {
         return toReturn;
     }
 
-    public static ArrayList<ProductionLine> getProductionLines() {
+    public synchronized static ArrayList<ProductionLine> getProductionLines() {
         ArrayList<ProductionLine> toReturn = new ArrayList<>();
         String hql = "FROM ProductionLine";
         Query q = s.createQuery(hql);
@@ -132,7 +131,42 @@ public class DataBaseConnector {
         if (!(result.size() == 0)) {
             s.getTransaction().begin();
             ProductionOrder po = (ProductionOrder) result.get(0);
-            po.setState(States.PRODUCTION_ORDER_INPROGRESS);
+            po.setState(ProductionOrder.PRODUCTION_ORDER_INPROGRESS);
+            s.update(po);
+            s.getTransaction().commit();
+            toReturn = true;
+        }
+        return toReturn;
+    }
+
+    public synchronized static boolean pauseProductionOrder(Integer id) {
+        boolean toReturn = false;
+        String hql = "FROM ProductionOrder PO WHERE PO.id = :id";
+        Query q = s.createQuery(hql);
+        q.setParameter("id", id);
+        List result = q.list();
+        if (!(result.size() == 0)) {
+            s.getTransaction().begin();
+            ProductionOrder po = (ProductionOrder) result.get(0);
+            po.setState(ProductionOrder.PRODUCTION_ORDER_PAUSED);
+            s.update(po);
+            s.getTransaction().commit();
+            toReturn = true;
+        }
+        return toReturn;
+    }
+
+
+    public synchronized static boolean unpauseProductionOrder(Integer id) {
+        boolean toReturn = false;
+        String hql = "FROM ProductionOrder PO WHERE PO.id = :id";
+        Query q = s.createQuery(hql);
+        q.setParameter("id", id);
+        List result = q.list();
+        if (!(result.size() == 0)) {
+            s.getTransaction().begin();
+            ProductionOrder po = (ProductionOrder) result.get(0);
+            po.setState(ProductionOrder.PRODUCTION_ORDER_INPROGRESS);
             s.update(po);
             s.getTransaction().commit();
             toReturn = true;
@@ -150,7 +184,7 @@ public class DataBaseConnector {
         ArrayList<ProductionOrder> toShift;
         if (!(result.size() == 0)) {
             ProductionOrder po = (ProductionOrder) result.get(0);
-            po.setState(States.PRODUCTION_ORDER_COMPLETED);
+            po.setState(ProductionOrder.PRODUCTION_ORDER_COMPLETED);
             po.setCompleteTime(new Timestamp(System.currentTimeMillis()));
             String hql2 = "FROM ProductionOrder PO WHERE PO.productionLine = :line AND PO.positionInQueue > :positionInQueue";
             Query q2 = s.createQuery(hql2);
