@@ -13,13 +13,13 @@
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
         <property name="hibernate.connection.url">
-            jdbc:mysql://192.168.17.20:3306/satiproduction
+
         </property>
         <property name="hibernate.connection.username">
-            PLew
+
         </property>
         <property name="hibernate.connection.password">
-            SatiAdmin!@34
+
         </property>
 
         <mapping class="HibernateClasses.Employee"/>
