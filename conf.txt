@@ -1,0 +1,25 @@
+sudo apt-get install matchbox-keyboard
+sudo nano ~/.config/lxsession/LXDE-pi/autostart
+chromium-browser --app=http://example.com --start-fullscreen
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+interface eth0
+
+static ip_address=192.168.1.101/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1
+
+interface wlan0
+
+static ip_address=192.168.0.201/24
+static routers=192.168.1.1
+static domain_name_servers=192.168.1.1
+
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+
+network={
+ssid="SATI_PRODUKCJA"
+psk="sati1926"
+key_mgmy=WPA-PSK
+}

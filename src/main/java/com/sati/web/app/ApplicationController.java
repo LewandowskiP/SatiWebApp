@@ -3,6 +3,7 @@ package com.sati.web.app;
 
 import HibernateClasses.Employee;
 import HibernateClasses.Pallete;
+import HibernateClasses.ProductionLine;
 import HibernateConnector.DataBaseConnector;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -169,7 +170,11 @@ public class ApplicationController {
 
     @GetMapping("/displayOrders")
     public String displayOrders(@RequestParam(value = "line", defaultValue = "0") Integer id, Model model, HttpServletRequest request) {
-        model.addAttribute("currentProductionLine", DataBaseConnector.getProductionLine(id).getId());
+        ProductionLine productionLine = DataBaseConnector.getProductionLine(id);
+        if (productionLine != null)
+            model.addAttribute("currentProductionLine", DataBaseConnector.getProductionLine(id).getId());
+        else
+            model.addAttribute("currentProductionLine", 0);
         return "displayOrders";
     }
 
