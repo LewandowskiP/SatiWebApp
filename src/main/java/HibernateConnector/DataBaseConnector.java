@@ -12,6 +12,7 @@ import org.hibernate.cfg.Configuration;
 import javax.persistence.FlushModeType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DataBaseConnector {
