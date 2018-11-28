@@ -207,4 +207,41 @@ public class DataBaseConnector {
             s.update(po);
         }
     }
+
+    public static boolean decreaseProductionOrderQuantity(Integer id) {
+
+        boolean toReturn = false;
+        String hql = "FROM ProductionOrder PO WHERE PO.id = :id";
+        Query q = s.createQuery(hql);
+        q.setParameter("id", id);
+        List result = q.list();
+        if (!(result.size() == 0)) {
+            s.getTransaction().begin();
+            ProductionOrder po = (ProductionOrder) result.get(0);
+            if (po.getQuantity() > 0)
+                po.setQuantity(po.getQuantity() - 1);
+            s.update(po);
+            s.getTransaction().commit();
+            toReturn = true;
+        }
+        return toReturn;
+    }
+
+    public static boolean increaseProductionOrderQuantity(Integer id) {
+        boolean toReturn = false;
+        String hql = "FROM ProductionOrder PO WHERE PO.id = :id";
+        Query q = s.createQuery(hql);
+        q.setParameter("id", id);
+        List result = q.list();
+        if (!(result.size() == 0)) {
+            s.getTransaction().begin();
+            ProductionOrder po = (ProductionOrder) result.get(0);
+            if (po.getQuantity() > 0)
+                po.setQuantity(po.getQuantity() + 1);
+            s.update(po);
+            s.getTransaction().commit();
+            toReturn = true;
+        }
+        return toReturn;
+    }
 }

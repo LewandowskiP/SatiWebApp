@@ -58,4 +58,19 @@ public class RestHandler {
         if (DataBaseConnector.unpauseProductionOrder(id)) toReturn = "Zlecenie zakończone";
         return toReturn;
     }
+
+    @GetMapping("/decreaseProductionOrderQuantity")
+    public synchronized String decreaseProductionOrderQuantity(@RequestParam(value = "id") Integer id) {
+        String toReturn = "Wystąpił błąd.";
+        if (DataBaseConnector.decreaseProductionOrderQuantity(id)) toReturn= "OK";
+        return toReturn;
+    }
+
+
+    @GetMapping("/increaseProductionOrderQuantity")
+    public synchronized String increaseProductionOrderQuantity(@RequestParam(value = "id") Integer id) {
+        String toReturn = "Wystąpił błąd.";
+        if (DataBaseConnector.increaseProductionOrderQuantity(id)) toReturn= "OK";
+        return toReturn;
+    }
 }

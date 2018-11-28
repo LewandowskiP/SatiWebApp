@@ -21,7 +21,6 @@
         <property name="hibernate.connection.password">
             SatiAdmin!@34
         </property>
-
         <mapping class="HibernateClasses.Employee"/>
         <mapping class="HibernateClasses.ProductType"/>
         <mapping class="HibernateClasses.ProductionRaportPart"/>

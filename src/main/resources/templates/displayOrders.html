@@ -16,6 +16,8 @@
     var startProductionOrderURL = URL + 'startProductionOrder?id=';
     var pauseProductionOrderURL = URL + 'pauseProductionOrder?id=';
     var unpauseProductionOrderURL = URL + 'unpauseProductionOrder?id=';
+    var decreaseProductionOrderQuantityURL = URL + 'decreaseProductionOrderQuantity?id=';
+    var increaseProductionOrderQuantityURL = URL + 'increaseProductionOrderQuantity?id=';
     app.controller('productionLines', function($scope,$interval, $http) {
 
         $http.get(productionLinesURL).
@@ -52,6 +54,14 @@
         $scope.completeOrder = function(order){
                 $http.get(finishProductionOrderURL + order.id);
         }
+
+        $scope.increaseProductionOrderQuantity = function(order){
+                $http.get(increaseProductionOrderQuantityURL + order.id);
+        }
+
+        $scope.decreaseProductionOrderQuantity = function(order){
+                $http.get(decreaseProductionOrderQuantityURL + order.id);
+        }
     });
 
     </script>
@@ -65,21 +75,36 @@
     <select class="form-control" ng-change="selectAction()" ng-model="prodLines"
             ng-options="line as line.line for line in productionLines"></select>
     <p></p>
-    <table class="table table-striped">
+    <table class="table">
         <thead>
         <th>Nr.</th>
         <th>Produkt</th>
-        <th>Ilość [KG]</th>
+        <th>Paleń/Palet</th>
         <th>Deadline</th>
         <th>Dodatkowe informacje</th>
         <th ng-if="order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}"></th>
 
         </thead>
         <tbody>
-        <tr ng-class=" order.state === 2 ? 'info' : order.state === 3 ? 'warning' : order.important ? 'danger' : 'default'" ng-repeat="order in orders">
+        <tr ng-class=" order.state === 2 ? 'bg-success' : order.state === 3 ? 'bg-warning' : order.important ? 'bg-danger' : 'bg-default'" ng-repeat="order in orders">
             <td>{{ order.positionInQueue + 1 }}</td>
             <td>{{ order.productType.productName }}</td>
-            <td>{{ order.quantity }}</td>
+            <td>
+
+                <button ng-if="order.state === 2  && order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}" type="button" class="btn" ng-click="decreaseProductionOrderQuantity(order)">
+                    -
+                </button>
+                {{ order.quantity }}
+                <button ng-if="order.state === 2 && order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}" type="button" class="btn" ng-click="increaseProductionOrderQuantity(order)">
+                +
+                </button>
+
+
+
+
+
+
+            </td>
             <td>{{ order.deadline | date :'dd.MM.yyyy H:mm' }}</td>
             <td>{{ order.otherInfo }}</td>
             <td ng-if="order.productionLine.id === " th:attrappend=" ng-if = ${currentProductionLine}">
