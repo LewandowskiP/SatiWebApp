@@ -4,15 +4,12 @@ import HibernateClasses.Employee;
 import HibernateClasses.Pallete;
 import HibernateClasses.ProductionLine;
 import HibernateClasses.ProductionOrder;
-import com.sati.web.app.States;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
 
-import javax.persistence.FlushModeType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DataBaseConnector {

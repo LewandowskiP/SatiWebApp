@@ -84,7 +84,7 @@ public class ApplicationController {
                     model.addAttribute("expiry", States.timestampToStrDDMMYYYY(pallete.getExpiryDate()));
                     model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee().getEmployeeID());
                     return "storeman";
-                } else return "redirect:storeman";
+                } else return "storeman";
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -100,7 +100,7 @@ public class ApplicationController {
                 pallete.setState(States.PALLETE_STORED);
                 DataBaseConnector.updateObject(pallete);
                 clearPalleteFromSession(request);
-                return "redirect:storeman";
+                return "storeman";
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -138,7 +138,7 @@ public class ApplicationController {
                     model.addAttribute("expiry", States.timestampToStrDDMMYYYY(pallete.getExpiryDate()));
                     model.addAttribute("employee", pallete.getProductionRaportPart().getEmployee().getEmployeeID());
                     return "hallManager";
-                } else return "redirect:hallManager";
+                } else return "hallManager";
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -154,7 +154,7 @@ public class ApplicationController {
                 pallete.setState(States.PALLETE_CHECKED);
                 DataBaseConnector.updateObject(pallete);
                 clearPalleteFromSession(request);
-                return "redirect:hallManager";
+                return "hallManager";
             } catch (Exception e) {
                 e.printStackTrace();
             }
