@@ -43,7 +43,7 @@ public class ApplicationController {
         Employee employee = DataBaseConnector.authorizeUser(credentials.getLogin(), credentials.getPassword());
         if (employee != null) {
             int position = employee.getJobPosition();
-            if (position == Positions.STOREMAN) {
+            if (position == Positions.STOREMAN || position == Positions.STOREMAN_JUNIOR) {
                 request.getSession().setAttribute("user", employee);
                 return "redirect:storeman";
             } else if (position == Positions.HALL_MANAGER) {
